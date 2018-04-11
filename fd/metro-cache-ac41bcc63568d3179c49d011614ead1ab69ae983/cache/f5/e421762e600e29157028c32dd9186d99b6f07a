@@ -1,0 +1,446 @@
+__d(function (global, _require, module, exports, _dependencyMap) {
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  var _react2 = _require(_dependencyMap[0], "react");
+
+  var _react3 = _interopRequireDefault(_react2);
+
+  var _index = _require(_dependencyMap[1], "./node_modules/react-transform-hmr/lib/index.js");
+
+  var _index2 = _interopRequireDefault(_index);
+
+  var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+  var _jsxFileName = "/home/teju/Projects/new/fd/Cam.js";
+
+  var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+  var _expo = _require(_dependencyMap[2], "expo");
+
+  var _reactNative = _require(_dependencyMap[3], "react-native");
+
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+  function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+  function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+  var _components = {
+    Cam: {
+      displayName: "Cam"
+    }
+  };
+
+  var _node_modulesReactTransformHmrLibIndexJs2 = (0, _index2.default)({
+    filename: "/home/teju/Projects/new/fd/Cam.js",
+    components: _components,
+    locals: [module],
+    imports: [_react3.default]
+  });
+
+  function _wrapComponent(id) {
+    return function (Component) {
+      return _node_modulesReactTransformHmrLibIndexJs2(Component, id);
+    };
+  }
+
+  var Cam = _wrapComponent("Cam")(function (_React$Component) {
+    _inherits(Cam, _React$Component);
+
+    function Cam() {
+      var _ref;
+
+      var _temp, _this, _ret;
+
+      _classCallCheck(this, Cam);
+
+      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Cam.__proto__ || Object.getPrototypeOf(Cam)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+        type: 'front',
+        photoId: 1,
+        photos: [],
+        faces: [],
+        permissionsGranted: false
+      }, _this.takePicture = function _callee() {
+        var _this2 = this;
+
+        return regeneratorRuntime.async(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (this.camera) {
+                  this.camera.takePictureAsync().then(function (data) {
+                    _expo.FileSystem.moveAsync({
+                      from: data.uri,
+                      to: _expo.FileSystem.documentDirectory + "photos/Photo_" + _this2.state.photoId + ".jpg"
+                    }).then(function () {
+                      _this2.setState({
+                        photoId: _this2.state.photoId + 1
+                      });
+                    });
+                  });
+                  {
+                    this.renderLandmarks();
+                  }
+                  ;
+                }
+
+              case 1:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, null, this);
+      }, _this.onFacesDetected = function (_ref2) {
+        var faces = _ref2.faces;
+        return _this.setState({
+          faces: faces
+        });
+      }, _this.onFaceDetectionError = function (state) {
+        return console.warn('Faces detection error:', state);
+      }, _temp), _possibleConstructorReturn(_this, _ret);
+    }
+
+    _createClass(Cam, [{
+      key: "componentWillMount",
+      value: function componentWillMount() {
+        var _ref3, status;
+
+        return regeneratorRuntime.async(function componentWillMount$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return regeneratorRuntime.awrap(_expo.Permissions.askAsync(_expo.Permissions.CAMERA));
+
+              case 2:
+                _ref3 = _context2.sent;
+                status = _ref3.status;
+                this.setState({
+                  permissionsGranted: status === 'granted'
+                });
+
+              case 5:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, null, this);
+      }
+    }, {
+      key: "toggleFacing",
+      value: function toggleFacing() {
+        this.setState({
+          type: this.state.type === 'back' ? 'front' : 'back'
+        });
+      }
+    }, {
+      key: "renderFace",
+      value: function renderFace(_ref4) {
+        var bounds = _ref4.bounds,
+            faceID = _ref4.faceID,
+            rollAngle = _ref4.rollAngle;
+        return _react3.default.createElement(
+          _reactNative.View,
+          {
+            key: faceID,
+            transform: [{
+              perspective: 600
+            }, {
+              rotateZ: rollAngle.toFixed(0) + "deg"
+            }],
+            style: [styles.face, _extends({}, bounds.size, {
+              left: bounds.origin.x,
+              top: bounds.origin.y
+            })],
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 48
+            }
+          },
+          _react3.default.createElement(
+            _reactNative.Text,
+            {
+              style: styles.faceText,
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 62
+              }
+            },
+            "rollAngle: ",
+            rollAngle.toFixed(0)
+          )
+        );
+      }
+    }, {
+      key: "renderLandmarksOfFace",
+      value: function renderLandmarksOfFace(face) {
+        console.log('leftEyePosition:', face.leftEyePosition);
+        console.log('rightEyePosition:', face.rightEyePosition);
+        console.log('leftEarPosition:', face.leftEarPosition);
+        console.log('rightEarPosition:', face.rightEarPosition);
+        console.log('leftCheekPosition:', face.leftCheekPosition);
+        console.log('rightCheekPosition:', face.rightCheekPosition);
+        console.log('leftMouthPosition:', face.leftMouthPosition);
+        console.log('mouthPosition:', face.mouthPosition);
+        console.log('rightMouthPosition:', face.rightMouthPosition);
+        console.log('noseBasePosition:', face.noseBasePosition);
+        console.log('bottomMouthPosition:', face.bottomMouthPosition);
+      }
+    }, {
+      key: "renderFaces",
+      value: function renderFaces() {
+        return _react3.default.createElement(
+          _reactNative.View,
+          {
+            style: styles.facesContainer,
+            pointerEvents: "none",
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 84
+            }
+          },
+          this.state.faces.map(this.renderFace)
+        );
+      }
+    }, {
+      key: "renderLandmarks",
+      value: function renderLandmarks() {
+        return _react3.default.createElement(
+          _reactNative.View,
+          {
+            style: styles.facesContainer,
+            pointerEvents: "none",
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 92
+            }
+          },
+          this.state.faces.map(this.renderLandmarksOfFace)
+        );
+      }
+    }, {
+      key: "renderNoPermissions",
+      value: function renderNoPermissions() {
+        return _react3.default.createElement(
+          _reactNative.View,
+          {
+            style: {
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: 10
+            },
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 100
+            }
+          },
+          _react3.default.createElement(
+            _reactNative.Text,
+            {
+              style: {
+                color: 'white'
+              },
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 101
+              }
+            },
+            "Camera permissions not granted - cannot open camera preview."
+          )
+        );
+      }
+    }, {
+      key: "renderCamera",
+      value: function renderCamera() {
+        var _this3 = this;
+
+        return _react3.default.createElement(
+          _expo.Camera,
+          {
+            ref: function ref(_ref5) {
+              _this3.camera = _ref5;
+            },
+            style: {
+              flex: 1,
+              width: 350
+            },
+            type: this.state.type,
+            faceDetectionLandmarks: _expo.Camera.Constants.FaceDetection.Landmarks.all,
+            onFacesDetected: this.onFacesDetected,
+            onFaceDetectionError: this.onFaceDetectionError,
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 110
+            }
+          },
+          _react3.default.createElement(
+            _reactNative.View,
+            {
+              style: {
+                flex: 0.5,
+                backgroundColor: 'transparent',
+                flexDirection: 'row'
+              },
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 122
+              }
+            },
+            _react3.default.createElement(
+              _reactNative.TouchableOpacity,
+              {
+                style: styles.flipButton,
+                onPress: this.toggleFacing.bind(this),
+                __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 128
+                }
+              },
+              _react3.default.createElement(
+                _reactNative.Text,
+                {
+                  style: styles.flipText,
+                  __source: {
+                    fileName: _jsxFileName,
+                    lineNumber: 129
+                  }
+                },
+                " FLIP "
+              )
+            )
+          ),
+          _react3.default.createElement(
+            _reactNative.View,
+            {
+              style: {
+                flex: 0.1,
+                backgroundColor: 'transparent',
+                flexDirection: 'row',
+                alignItems: 'center'
+              },
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 132
+              }
+            },
+            _react3.default.createElement(
+              _reactNative.TouchableOpacity,
+              {
+                style: [styles.flipButton, {
+                  flex: 0.3,
+                  alignSelf: 'flex-end'
+                }],
+                onPress: this.takePicture.bind(this),
+                __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 139
+                }
+              },
+              _react3.default.createElement(
+                _reactNative.Text,
+                {
+                  style: styles.flipText,
+                  __source: {
+                    fileName: _jsxFileName,
+                    lineNumber: 142
+                  }
+                },
+                " SNAP "
+              )
+            )
+          ),
+          this.renderFaces()
+        );
+      }
+    }, {
+      key: "render",
+      value: function render() {
+        var cameraScreenContent = this.state.permissionsGranted ? this.renderCamera() : this.renderNoPermissions();
+        return _react3.default.createElement(
+          _reactNative.View,
+          {
+            style: styles.container,
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 152
+            }
+          },
+          cameraScreenContent
+        );
+      }
+    }]);
+
+    return Cam;
+  }(_react3.default.Component));
+
+  exports.default = Cam;
+
+  var styles = _reactNative.StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#000'
+    },
+    flipButton: {
+      flex: 0.3,
+      height: 40,
+      marginHorizontal: 2,
+      marginBottom: 10,
+      marginTop: 20,
+      borderRadius: 8,
+      borderColor: 'white',
+      borderWidth: 1,
+      padding: 5,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: 'green'
+    },
+    flipText: {
+      color: 'white',
+      fontSize: 15
+    },
+    item: {
+      margin: 4,
+      backgroundColor: 'indianred',
+      height: 35,
+      width: 80,
+      borderRadius: 5,
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
+    facesContainer: {
+      position: 'absolute',
+      bottom: 0,
+      right: 0,
+      left: 0,
+      top: 0
+    },
+    face: {
+      padding: 10,
+      borderWidth: 2,
+      borderRadius: 2,
+      position: 'absolute',
+      borderColor: '#FFD700',
+      justifyContent: 'center',
+      backgroundColor: 'rgba(0, 0, 0, 0.5)'
+    },
+    faceText: {
+      color: '#FFD700',
+      fontWeight: 'bold',
+      textAlign: 'center',
+      margin: 10,
+      backgroundColor: 'transparent'
+    },
+    row: {
+      flexDirection: 'row'
+    }
+  });
+});

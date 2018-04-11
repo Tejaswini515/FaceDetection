@@ -1,0 +1,81 @@
+__d(function (global, _require2, module, exports, _dependencyMap) {
+  'use strict';
+
+  var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+  var _jsxFileName = "/home/teju/Projects/new/fd/node_modules/react-native/Libraries/Components/View/View.js";
+
+  var NativeMethodsMixin = _require2(_dependencyMap[0], "NativeMethodsMixin");
+
+  var Platform = _require2(_dependencyMap[1], "Platform");
+
+  var React = _require2(_dependencyMap[2], "React");
+
+  var ReactNativeStyleAttributes = _require2(_dependencyMap[3], "ReactNativeStyleAttributes");
+
+  var ReactNativeViewAttributes = _require2(_dependencyMap[4], "ReactNativeViewAttributes");
+
+  var ViewPropTypes = _require2(_dependencyMap[5], "ViewPropTypes");
+
+  var _require = _require2(_dependencyMap[6], "ViewContext"),
+      ViewContextTypes = _require.ViewContextTypes;
+
+  var createReactClass = _require2(_dependencyMap[7], "create-react-class");
+
+  var invariant = _require2(_dependencyMap[8], "fbjs/lib/invariant");
+
+  var requireNativeComponent = _require2(_dependencyMap[9], "requireNativeComponent");
+
+  var View = createReactClass({
+    displayName: 'View',
+    mixins: [NativeMethodsMixin],
+    propTypes: ViewPropTypes,
+    viewConfig: {
+      uiViewClassName: 'RCTView',
+      validAttributes: ReactNativeViewAttributes.RCTView
+    },
+    childContextTypes: ViewContextTypes,
+    getChildContext: function getChildContext() {
+      return {
+        isInAParentText: false
+      };
+    },
+    render: function render() {
+      invariant(!(this.context.isInAParentText && Platform.OS === 'android'), 'Nesting of <View> within <Text> is not supported on Android.');
+      return React.createElement(RCTView, _extends({}, this.props, {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 78
+        }
+      }));
+    }
+  });
+  var RCTView = requireNativeComponent('RCTView', View, {
+    nativeOnly: {
+      nativeBackgroundAndroid: true,
+      nativeForegroundAndroid: true
+    }
+  });
+
+  if (__DEV__) {
+    var UIManager = _require2(_dependencyMap[10], "UIManager");
+
+    var viewConfig = UIManager.viewConfigs && UIManager.viewConfigs.RCTView || {};
+
+    for (var prop in viewConfig.nativeProps) {
+      var viewAny = View;
+
+      if (!viewAny.propTypes[prop] && !ReactNativeStyleAttributes[prop]) {
+        throw new Error('View is missing propType for native prop `' + prop + '`');
+      }
+    }
+  }
+
+  var ViewToExport = RCTView;
+
+  if (__DEV__) {
+    ViewToExport = View;
+  }
+
+  module.exports = ViewToExport;
+});

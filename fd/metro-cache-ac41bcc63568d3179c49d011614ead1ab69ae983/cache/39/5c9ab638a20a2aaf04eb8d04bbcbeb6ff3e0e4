@@ -1,0 +1,17 @@
+__d(function (global, _require, module, exports, _dependencyMap) {
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  var _reactNative = _require(_dependencyMap[0], "react-native");
+
+  var X_WIDTH = 375;
+  var X_HEIGHT = 812;
+
+  var _Dimensions$get = _reactNative.Dimensions.get('window'),
+      D_HEIGHT = _Dimensions$get.height,
+      D_WIDTH = _Dimensions$get.width;
+
+  var isIPhoneX = _reactNative.Platform.OS === 'ios' && D_HEIGHT === X_HEIGHT && D_WIDTH === X_WIDTH;
+  exports.default = isIPhoneX;
+});

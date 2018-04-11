@@ -1,0 +1,24 @@
+__d(function (global, _require, module, exports, _dependencyMap) {
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = normalizeLinkingUrl;
+
+  function normalizeLinkingUrl(constants, platform) {
+    var linkingUrl = constants.linkingUri;
+
+    if (platform === 'ios') {
+      return linkingUrl;
+    }
+
+    if (linkingUrl.includes('release-channel') && linkingUrl.endsWith('/+')) {
+      linkingUrl = linkingUrl.replace(/\/\+$/, '+');
+    }
+
+    if (constants.appOwnership === 'standalone' && !linkingUrl.includes('+')) {
+      return linkingUrl + "+";
+    }
+
+    return linkingUrl;
+  }
+});
